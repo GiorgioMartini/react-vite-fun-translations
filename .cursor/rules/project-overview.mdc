@@ -1,0 +1,9 @@
+---
+alwaysApply: false
+---
+
+- The app really wants to be layered (think clean architecture). Pay attention to the important directories (`io`, `view`, `domain`).
+- Within `io`, repositories are the low-level stuff and services translate low-level into domain.
+- The starting code has a repository for yoda translation.
+- The fun translations API is free and open to use, but quite restrictive in term of usage. It's probably a very good idea to start with the provided mock.
+- The app will feel much better without any type issue, obviously.
