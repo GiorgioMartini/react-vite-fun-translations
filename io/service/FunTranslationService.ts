@@ -1,15 +1,18 @@
 import type { Translation } from "domain/types/Translation";
-import YodaTranslationRepo from "../repo/YodaTranslationRepo";
 import type { Engine } from "domain/types/Engine";
+import { BaseTranslationRepo } from "../repo/BaseTranslationRepo";
+import type { TranslationResponse } from "../repo/BaseTranslationRepo";
+import YodaTranslationRepo from "../repo/YodaTranslationRepo";
+import PirateTranslationRepo from "../repo/PirateTranslationRepo";
 
 interface FunTranslationService {
   getTranslation(text: string): Promise<Translation>;
 }
 
 class DefaultFunTranslationService implements FunTranslationService {
-  repo: YodaTranslationRepo;
+  private repo: BaseTranslationRepo;
 
-  constructor(repo: YodaTranslationRepo) {
+  constructor(repo: BaseTranslationRepo) {
     this.repo = repo;
   }
 
@@ -19,16 +22,35 @@ class DefaultFunTranslationService implements FunTranslationService {
 
     return {
       text: payload.contents.translated,
-      engine: "yoda" as Engine,
+      engine: this.repo.engine,
     };
   }
 }
 
-const createDefaultFunTranslationService = () => {
-  const yodaRepo = new YodaTranslationRepo();
-  const service = new DefaultFunTranslationService(yodaRepo);
-
-  return service;
+// Repository mapping for the generic factory
+const repoMap: Record<Engine, new () => BaseTranslationRepo> = {
+  yoda: YodaTranslationRepo,
+  pirate: PirateTranslationRepo,
 };
 
-export { DefaultFunTranslationService, createDefaultFunTranslationService };
+// Generic factory function
+const createTranslationServiceForEngine = (
+  engine: Engine
+): DefaultFunTranslationService => {
+  const RepoClass = repoMap[engine];
+  const repo = new RepoClass();
+  return new DefaultFunTranslationService(repo);
+};
+
+// Convenience functions for common translations
+const createYodaTranslationService = () =>
+  createTranslationServiceForEngine("yoda");
+const createPirateTranslationService = () =>
+  createTranslationServiceForEngine("pirate");
+
+export {
+  DefaultFunTranslationService,
+  createTranslationServiceForEngine,
+  createYodaTranslationService,
+  createPirateTranslationService,
+};
