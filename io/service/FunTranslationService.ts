@@ -4,6 +4,7 @@ import { BaseTranslationRepo } from "../repo/BaseTranslationRepo";
 import type { TranslationResponse } from "../repo/BaseTranslationRepo";
 import YodaTranslationRepo from "../repo/YodaTranslationRepo";
 import PirateTranslationRepo from "../repo/PirateTranslationRepo";
+import { fromDto } from "../codec/fun-translation";
 
 interface FunTranslationService {
   getTranslation(text: string): Promise<Translation>;
@@ -20,10 +21,7 @@ class DefaultFunTranslationService implements FunTranslationService {
     const response = await this.repo.getTranslation(text);
     const payload = await response.json();
 
-    return {
-      text: payload.contents.translated,
-      engine: this.repo.engine,
-    };
+    return fromDto(payload, this.repo.engine);
   }
 }
 
