@@ -3,11 +3,15 @@ import { TranslateForm } from "../translate/form";
 import Content from "view/components/Content";
 import Sidepane from "view/components/Sidepane";
 import { createYodaTranslationService } from "io/service/FunTranslationService";
+import { withCaching } from "io/service/CacheService";
+import TranslationHistory from "view/components/TranslationHistory";
+import { useTranslationHistory } from "view/hooks/useTranslationHistory";
 import {
   useActionData,
   isRouteErrorResponse,
   useRouteError,
 } from "react-router";
+import { useEffect } from "react";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -25,9 +29,10 @@ export const action = async ({ request }: { request: Request }) => {
       throw new Error("Text is required");
     }
 
-    const translationService = createYodaTranslationService();
+    // Create a cached version of the translation service
+    const translationService = withCaching(createYodaTranslationService());
     const translation = await translationService.getTranslation(text);
-    return { ok: true, translation };
+    return { ok: true, translation, originalText: text };
   } catch (error) {
     return {
       ok: false,
@@ -48,10 +53,20 @@ export function ErrorBoundary() {
 
 export default function Translate() {
   const result = useActionData<typeof action>();
+  const { history, addToHistory, clearHistory } = useTranslationHistory();
+
+  // Add successful translations to history
+  useEffect(() => {
+    if (result?.ok && result.translation && result.originalText) {
+      addToHistory(result.originalText, result.translation);
+    }
+  }, [result, addToHistory]);
 
   return (
     <div className="flex h-full py-3">
-      <Sidepane>It would be nice to see past translations here.</Sidepane>
+      <Sidepane>
+        <TranslationHistory history={history} onClear={clearHistory} />
+      </Sidepane>
       <Content>
         <TranslateForm />
         {result?.ok === false && (

@@ -6,7 +6,7 @@ import YodaTranslationRepo from "../repo/YodaTranslationRepo";
 import PirateTranslationRepo from "../repo/PirateTranslationRepo";
 import { fromDto } from "../codec/fun-translation";
 
-interface FunTranslationService {
+export interface FunTranslationService {
   getTranslation(text: string): Promise<Translation>;
 }
 
