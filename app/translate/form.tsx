@@ -1,4 +1,4 @@
-import { useNavigation } from "react-router";
+import { useNavigation, Form } from "react-router";
 import Button from "view/components/Button";
 import Input from "view/components/Input";
 
@@ -8,7 +8,7 @@ export function TranslateForm() {
 
   return (
     <div className="space-y-4">
-      <form className="contents" method="POST" action="/translate">
+      <Form className="contents" method="POST" action="/translate">
         <fieldset className="flex flex-col items-start gap-6 w-full">
           <Input
             name="text"
@@ -19,7 +19,7 @@ export function TranslateForm() {
             {isSubmitting ? "Translating..." : "Translate"}
           </Button>
         </fieldset>
-      </form>
+      </Form>
     </div>
   );
 }

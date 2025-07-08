@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import type { Translation } from "domain/types/Translation";
 
 export interface HistoryEntry {
@@ -23,7 +23,11 @@ export function useTranslationHistory() {
   const lastEntryRef = useRef<string | null>(null);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+    } catch (error) {
+      console.warn("Failed to save translation history:", error);
+    }
   }, [history]);
 
   const addToHistory = useCallback(
