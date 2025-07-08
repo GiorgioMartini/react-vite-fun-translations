@@ -2,7 +2,8 @@ import type { Route } from "./+types/translate";
 import { TranslateForm } from "../translate/form";
 import Content from "view/components/Content";
 import Sidepane from "view/components/Sidepane";
-import { createYodaTranslationService } from "io/service/FunTranslationService";
+import { createTranslationServiceForEngine } from "io/service/FunTranslationService";
+import type { Engine } from "domain/types/Engine";
 import { withCaching } from "io/service/CacheService";
 import TranslationHistory from "view/components/TranslationHistory";
 import { useTranslationHistory } from "view/hooks/useTranslationHistory";
@@ -29,8 +30,13 @@ export const action = async ({ request }: { request: Request }) => {
       throw new Error("Text is required");
     }
 
-    // Create a cached version of the translation service
-    const translationService = withCaching(createYodaTranslationService());
+    // Determine the translation engine (default to "yoda")
+    const engine = (formData.get("engine") || "yoda") as Engine;
+
+    // Create a cached version of the appropriate translation service
+    const translationService = withCaching(
+      createTranslationServiceForEngine(engine)
+    );
     const translation = await translationService.getTranslation(text);
     return { ok: true, translation, originalText: text };
   } catch (error) {

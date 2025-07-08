@@ -32,7 +32,7 @@ export abstract class BaseTranslationRepo {
 
     // Using mock data for development
     const json = await import(
-      `../mocks/api.funtranslations.com_translate_${this.engine}.json.json`
+      `../mocks/api.funtranslations.com_translate_${this.engine}.json`
     );
 
     return {

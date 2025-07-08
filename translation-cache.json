@@ -2,5 +2,29 @@
   "file based base:DefaultFunTranslationService": {
     "text": "Completed this assignment with a single keyboard,  a master candidate has",
     "engine": "yoda"
+  },
+  "Hello Obi-Wan Kenobi, how are you doing in this land?:DefaultFunTranslationService": {
+    "text": "Completed this assignment with a single keyboard,  a master candidate has",
+    "engine": "yoda"
+  },
+  "This is some text for the pirates.:DefaultFunTranslationService": {
+    "text": "Completed this assignment with a single keyboard,  a master candidate has",
+    "engine": "pirate"
+  },
+  "Something about the Yoda.:DefaultFunTranslationService": {
+    "text": "Completed this assignment with a single keyboard,  a master candidate has",
+    "engine": "yoda"
+  },
+  "Something about the pirate.:DefaultFunTranslationService": {
+    "text": "Something about pirate.",
+    "engine": "pirate"
+  },
+  "Something about the pirate two:DefaultFunTranslationService": {
+    "text": "Something about pirate.",
+    "engine": "pirate"
+  },
+  "How are you doing Obi-Wan Kenobi?:DefaultFunTranslationService": {
+    "text": "Completed this assignment with a single keyboard,  a master candidate has",
+    "engine": "yoda"
   }
 }
