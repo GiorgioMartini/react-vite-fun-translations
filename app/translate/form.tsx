@@ -17,6 +17,7 @@ export function TranslateForm() {
           >
             <option value="yoda">Yoda</option>
             <option value="pirate">Pirate</option>
+            <option value="minion">Minion</option>
           </select>
 
           <Input

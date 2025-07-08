@@ -1,1 +1,1 @@
-export type Engine = "yoda" | "pirate";
+export type Engine = "yoda" | "pirate" | "minion";
