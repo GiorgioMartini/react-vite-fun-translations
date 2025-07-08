@@ -114,4 +114,65 @@ This template comes with [Tailwind CSS](https://tailwindcss.com/) already config
 
 ---
 
-Built with ❤️ using React Router.
+### How to Add a New Engine
+
+To add a new engine, follow these steps:
+
+---
+
+1. **Extend the `Engine` union:**
+
+```ts
+export type Engine = "yoda" | "pirate" | "starwars";
+```
+
+---
+
+2. **Add a new repo:**
+
+**`io/repo/StarwarsTranslationRepo.ts`**
+
+```ts
+import { BaseTranslationRepo } from "./BaseTranslationRepo";
+
+/** Fun-translations “Star Wars” engine. */
+export default class StarwarsTranslationRepo extends BaseTranslationRepo {
+  constructor() {
+    super("starwars");
+  }
+}
+```
+
+---
+
+3. **Update the service:**
+
+**`io/service/FunTranslationService.ts`**
+
+```ts
+import StarwarsTranslationRepo from "../repo/StarwarsTranslationRepo";
+
+const repoMap: Record<Engine, new () => BaseTranslationRepo> = {
+  yoda: YodaTranslationRepo,
+  pirate: PirateTranslationRepo,
+  starwars: StarwarsTranslationRepo, // ← new line
+};
+```
+
+---
+
+4. **Update the UI:**
+
+**`app/translate/form.tsx`**
+
+```tsx
+<option value="starwars">Star Wars</option>
+```
+
+---
+
+5. **Also add:**
+
+```
+api.funtranslations.com_translate_starwars.json
+```

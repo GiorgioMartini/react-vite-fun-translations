@@ -21,24 +21,24 @@ export abstract class BaseTranslationRepo {
   }
 
   async getTranslation(text: string): Promise<TranslationResponse> {
-    // TODO: Use real API when ready
-    // return fetch(this.apiUrl, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/x-www-form-urlencoded",
-    //   },
-    //   body: `text=${encodeURIComponent(text)}`,
-    // });
-
-    // Using mock data for development
-    const json = await import(
-      `../mocks/api.funtranslations.com_translate_${this.engine}.json`
-    );
-
-    return {
-      async json() {
-        return json.default || json;
+    // Real API
+    return fetch(this.apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-    };
+      body: `text=${encodeURIComponent(text)}`,
+    });
+
+    // Use mock data for development
+    // const json = await import(
+    //   `../mocks/api.funtranslations.com_translate_${this.engine}.json`
+    // );
+
+    // return {
+    //   async json() {
+    //     return json.default || json;
+    //   },
+    // };
   }
 }
