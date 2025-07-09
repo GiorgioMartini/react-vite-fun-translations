@@ -12,7 +12,7 @@ export function Welcome() {
           />
         </div>
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 text-center">
-          Jorge Martinez - Coding Challenge for Frontend Developer Proposition
+          Jorge Martinez - Coding Challenge for Frontend Developer Position
         </h1>
         <p className="text-gray-700 dark:text-gray-300 text-center max-w-prose">
           Explore the Fun Translations demo app and see the translator in
